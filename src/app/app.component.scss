@@ -1,0 +1,36 @@
+.rw-column {
+	padding-top: 30px;
+	padding-left: 30px;
+}
+
+.rw-pick {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	& > * {
+		width: 100px;
+		margin-bottom: 25px;
+
+	
+	}
+
+	.picked {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 22px;
+	}
+}
+
+.rw-name {
+	width: 150px;
+
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
+.rw-frequency {
+	width: 70px;
+}
