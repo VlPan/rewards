@@ -1,8 +1,8 @@
 <nb-layout>
 
-	<nb-layout-header fixed>
+	<!-- <nb-layout-header fixed> -->
 		<!-- Insert header here -->
-	</nb-layout-header>
+	<!-- </nb-layout-header> -->
 
 	<nb-layout-column class="rw-column">
 		<nb-card>
@@ -12,7 +12,7 @@
 				<button nbButton
 						status="success" (click)="pickReward()">Pick NOW!</button>
 
-				<div class="picked">{{pickedReward?.name}}</div>
+				<div class="picked">{{pickedReward?.name | zl}}</div>
 
 				
 			</nb-card-body>
