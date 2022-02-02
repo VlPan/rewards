@@ -7,10 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbCardModule, NbListModule, NbButton, NbButtonModule, NbInputModule, NbIconModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ZlPipe } from './zl.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ZlPipe
   ],
   imports: [
     BrowserModule,

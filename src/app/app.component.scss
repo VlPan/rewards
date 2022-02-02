@@ -1,6 +1,15 @@
+.nb-layout {
+	width: 100%;
+	flex-wrap: wrap;
+}
 .rw-column {
-	padding-top: 30px;
-	padding-left: 30px;
+	min-width: 100% !important;
+	// padding-top: 30px;
+	// padding-left: 30px;
+}
+
+::ng-deep .columns {
+	flex-wrap: wrap !important;
 }
 
 .rw-pick {
@@ -25,12 +34,12 @@
 }
 
 .rw-name {
-	width: 150px;
+	width: 100px;
 
 	margin-left: 25px;
 	margin-right: 25px;
 }
 
 .rw-frequency {
-	width: 70px;
+	width: 50px;
 }

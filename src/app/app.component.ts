@@ -63,4 +63,16 @@ export class AppComponent {
 		this.pickedReward = this.rewardService.getRandomReward(this.rewards);
 		this.userRewards = this.userRewardService.addReward(this.pickedReward);
 	}
+
+	public getTotal(): number {
+		const total = this.userRewards.reduce((acc: number, cur: UserReward) => {
+			const balance = Number(Number(cur.name) * cur.amount);
+			if(balance != null && balance) {
+				acc += balance;
+			}
+			return acc;
+		}, 0)
+
+		return total;
+	}
 }

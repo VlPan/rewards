@@ -6,23 +6,6 @@
 
 	<nb-layout-column class="rw-column">
 		<nb-card>
-			<nb-card-header>My Rewards</nb-card-header>
-			<nb-card-body>
-				<nb-list>
-					<nb-list-item *ngFor="let reward of userRewards">
-						<div class="rw-name">{{ reward.name }}</div>
-						<div class="rw-frequency">{{reward.amount}}</div>
-
-						<button nbButton
-				status="success"   (click)="userUserReward(reward)"><nb-icon icon="arrow-downward-outline"></nb-icon></button>
-
-					</nb-list-item>
-				</nb-list>
-			</nb-card-body>
-		</nb-card>
-	</nb-layout-column>
-	<nb-layout-column class="rw-column">
-		<nb-card>
 			<nb-card-header>Pick Reward</nb-card-header>
 			<nb-card-body class="rw-pick">
 
@@ -35,6 +18,26 @@
 			</nb-card-body>
 		</nb-card>
 	</nb-layout-column>
+	
+	<nb-layout-column class="rw-column">
+		<nb-card>
+			<nb-card-header>My Rewards</nb-card-header>
+			<nb-card-body>
+				<nb-list>
+					<nb-list-item *ngFor="let reward of userRewards">
+						<div class="rw-name">{{ reward.name | zl }}</div>
+						<div class="rw-frequency">{{reward.amount}}</div>
+						<button nbButton
+				status="success"   (click)="userUserReward(reward)"><nb-icon icon="arrow-downward-outline"></nb-icon></button>
+					</nb-list-item>
+					<nb-list-item>
+						<div class="rw-name"><b>total: {{ getTotal() | zl }}</b> </div>
+					</nb-list-item>
+				</nb-list>
+			</nb-card-body>
+		</nb-card>
+	</nb-layout-column>
+
 
 	<nb-layout-column class="rw-column">
 		<nb-card>
@@ -57,7 +60,7 @@
 				</form>
 				<nb-list>
 					<nb-list-item *ngFor="let reward of rewards; trackBy: trackById">
-						<div class="rw-name">{{ reward.name }}</div>
+						<div class="rw-name">{{ reward.name | zl }}</div>
 						<div class="rw-frequency">{{reward.frequency}}</div>
 						<button nbButton
 							status="danger" size="tiny"  (click)="removeReward(reward)"><nb-icon icon="trash-outline"></nb-icon></button>
