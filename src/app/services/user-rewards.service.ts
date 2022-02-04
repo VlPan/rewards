@@ -14,6 +14,11 @@ export class UserRewardService {
     return this.ls.get(this.USER_REWARDS_KEY) || [];
   }
 
+  // hasReward(reward: Reward): boolean {
+  //   const allRewards = this.getRewards();
+  //   return this.ls
+  // }
+
   addReward(reward: Reward) {
     const oldRewards: UserReward[] = this.ls.get(this.USER_REWARDS_KEY);
     const isRewardExist = oldRewards.some((r) => reward.id === r.id);

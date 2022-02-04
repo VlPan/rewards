@@ -1,24 +1,46 @@
 <nb-layout>
 
 	<!-- <nb-layout-header fixed> -->
-		<!-- Insert header here -->
+	<!-- Insert header here -->
 	<!-- </nb-layout-header> -->
 
 	<nb-layout-column class="rw-column">
-		<nb-card>
-			<nb-card-header>Pick Reward</nb-card-header>
+		<nb-card [formGroup]="withDrawBalanceForm">
+			<nb-card-header>Pick Reward (your balance: <span class="balance" [ngClass]="{'bad-balance': userBalance <= 0}">{{userBalance | zl}}</span>) <button nbButton 
+								status="warning"
+								size="tiny"
+								(click)="isWithdrawShown ? withdrawBalance() : isWithdrawShown = true">
+					<nb-icon icon="arrow-downward-outline"></nb-icon>
+				</button>
+			
+				<input 
+				*ngIf="isWithdrawShown"
+				formControlName="balanceToWithDraw"
+				type="text"
+				nbInput
+				status="basic"
+				placeholder="balance to withdraw"
+				class="rw-name">
+
+			</nb-card-header>
 			<nb-card-body class="rw-pick">
 
-				<button nbButton
-						status="success" (click)="pickReward()">Pick NOW!</button>
+				<button nbButton [disabled]="isUIBlocked"
+								status="success"
+								(click)="pickReward()">Pick NOW!</button>
 
-				<div class="picked">{{pickedReward?.name | zl}}</div>
+				<button nbButton [disabled]="isUIBlocked"
+								size="tiny"
+								status="danger"
+								(click)="punish()">Punish</button>
 
-				
+				<div class="picked">{{displayedReward?.name | zl}}</div>
+
+
 			</nb-card-body>
 		</nb-card>
 	</nb-layout-column>
-	
+
 	<nb-layout-column class="rw-column">
 		<nb-card>
 			<nb-card-header>My Rewards</nb-card-header>
@@ -28,10 +50,18 @@
 						<div class="rw-name">{{ reward.name | zl }}</div>
 						<div class="rw-frequency">{{reward.amount}}</div>
 						<button nbButton
-				status="success"   (click)="userUserReward(reward)"><nb-icon icon="arrow-downward-outline"></nb-icon></button>
+										status="success"
+										(click)="useUserReward(reward)">
+							<nb-icon icon="arrow-downward-outline"></nb-icon>
+						</button>
 					</nb-list-item>
 					<nb-list-item>
-						<div class="rw-name"><b>total: {{ getTotal() | zl }}</b> </div>
+						<div class="rw-name"><b>total: {{ getTotal() | zl }} <button nbButton
+												status="warning"
+												size="tiny"
+												(click)="addToBalance()">
+									<nb-icon icon="arrow-downward-outline"></nb-icon>
+								</button></b> </div>
 					</nb-list-item>
 				</nb-list>
 			</nb-card-body>
@@ -46,24 +76,30 @@
 			<nb-card-body>
 				<form [formGroup]="addRewardForm">
 					<button nbButton
-							status="info" [disabled]="!addRewardForm.valid" (click)="addReward()">Add</button>
-					<input  formControlName="name"
-						   type="text"
-						   nbInput
-						   status="basic"
-						   placeholder="Name"
-						   class="rw-name">
+									status="info"
+									[disabled]="!addRewardForm.valid"
+									(click)="addReward()">Add</button>
+					<input formControlName="name"
+								 type="text"
+								 nbInput
+								 status="basic"
+								 placeholder="Name"
+								 class="rw-name">
 					<input nbInput
-							formControlName="frequency"
-						   status="basic"
-						   class="rw-frequency">
+								 formControlName="frequency"
+								 status="basic"
+								 class="rw-frequency">
 				</form>
 				<nb-list>
 					<nb-list-item *ngFor="let reward of rewards; trackBy: trackById">
 						<div class="rw-name">{{ reward.name | zl }}</div>
 						<div class="rw-frequency">{{reward.frequency}}</div>
 						<button nbButton
-							status="danger" size="tiny"  (click)="removeReward(reward)"><nb-icon icon="trash-outline"></nb-icon></button>
+										status="danger"
+										size="tiny"
+										(click)="removeReward(reward)">
+							<nb-icon icon="trash-outline"></nb-icon>
+						</button>
 					</nb-list-item>
 				</nb-list>
 			</nb-card-body>
