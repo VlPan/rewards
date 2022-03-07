@@ -7,7 +7,7 @@ import { LocalStorage } from './local-storage.service';
   providedIn: 'root',
 })
 export class UserRewardService {
-  public readonly USER_REWARDS_KEY = 'userRewards2';
+  public readonly USER_REWARDS_KEY = 'userRewards';
   constructor(private ls: LocalStorage) {}
 
   getRewards() {

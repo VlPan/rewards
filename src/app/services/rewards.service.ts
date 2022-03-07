@@ -8,7 +8,7 @@ import { LocalStorage } from './local-storage.service';
 })
 export class RewardService {
 
-public readonly REWARDS_KEY = 'rewards2';
+public readonly REWARDS_KEY = 'rewards';
 constructor(private ls: LocalStorage) {}
 
   getRewards() {
