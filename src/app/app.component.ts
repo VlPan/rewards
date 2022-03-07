@@ -29,14 +29,18 @@ export class AppComponent {
 	rewards: Reward[] = []
 	userRewards: UserReward[] = []
 	userBalance: number = 0;
+	recursiveRewards = [];
 
 	displayedReward: Reward = null;
 	isUIBlocked: boolean = false;
+
+	private pickMode: PickMode = PickMode.Numeric;
 
 	nameControl: FormControl = new FormControl('', [Validators.required]);
 	frequencyControl: FormControl = new FormControl(1, [Validators.min(0), Validators.required]);
 
 	balanceToWithDraw: FormControl = new FormControl(null, [Validators.min(0), Validators.required]);
+	numberOfRewardsToGet: FormControl = new FormControl(null, [Validators.min(0), Validators.required]);
 
 	addRewardForm = new FormGroup({
 		name: this.nameControl,
@@ -45,6 +49,7 @@ export class AppComponent {
 
 	withDrawBalanceForm = new FormGroup({
 		balanceToWithDraw: this.balanceToWithDraw,
+		numberOfRewardsToGet: this.numberOfRewardsToGet
 	});
 
 	public nameChange($event: any) {
@@ -88,9 +93,39 @@ export class AppComponent {
 	}
 
 	public pickReward() {
+		if(this.isSingleMode) {
+			this.getReward();
+		} else {
+			const times = this.numberOfRewardsToGet.value;
+			this.isUIBlocked = true;
+			this.recursive(0, times);
+		}
+	}
+
+	public getReward(n = 500, block = true, recursive = false) {
 		this.displayedReward = this.rewardService.getRandomReward(this.rewards);
 		this.userRewards = this.userRewardService.addReward(this.displayedReward);
-		this.blockUiFor(500);
+		block && this.blockUiFor(n);
+		recursive && this.recursiveRewards.push(this.displayedReward.name);
+	}
+
+	public recursive(n, limit) {
+		console.log('recursive', n, limit);
+		const time = getRandomInt(300, 1000);
+		if(n >= limit) {
+			this.isUIBlocked = false;
+			return;
+		};
+		setTimeout(() => {
+			this.getReward(time, false, true)
+			this.recursive(n + 1, limit);
+		}, time)
+
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
 	}
 
 	public punish() {
@@ -146,4 +181,36 @@ export class AppComponent {
 			this.displayedReward = null;
 		}, number)
 	}
+
+	public get isSingleMode() {
+		return this.pickMode === PickMode.Single;
+	}
+
+	public get isNumericMode() {
+		return this.pickMode === PickMode.Numeric;
+	}
+
+	public switchToNumericMode() {
+		this.pickMode = PickMode.Numeric;
+	}
+
+	public switchToSingleMode() {
+		this.pickMode = PickMode.Single;
+	}
+
+	public isRewardSmall(r) {return parseInt(r) <= 3 }
+	public isRewardAverage(r) {return parseInt(r) <= 30 && parseInt(r) > 3}
+	public isRewardBig(r) {return parseInt(r) <= 250 && parseInt(r) > 30}
+	public isRewardAmazing(r) {return parseInt(r) <= 1000000 && parseInt(r) > 250}
+
+	clearRecursive() {
+		console.log('Clear', );
+		this.recursiveRewards = [];
+	}
+}
+
+
+export enum PickMode {
+	Single = 'Single',
+	Numeric = 'Numeric'
 }

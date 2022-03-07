@@ -6,35 +6,82 @@
 
 	<nb-layout-column class="rw-column">
 		<nb-card [formGroup]="withDrawBalanceForm">
-			<nb-card-header>Pick Reward (your balance: <span class="balance" [ngClass]="{'bad-balance': userBalance <= 0}">{{userBalance | zl}}</span>) <button nbButton 
+			<nb-card-header>Pick Reward (your balance: <span class="balance"
+							[ngClass]="{'bad-balance': userBalance <= 0}">{{userBalance | zl}}</span>)
+				<button nbButton
 								status="warning"
+								class="withdraw"
 								size="tiny"
 								(click)="isWithdrawShown ? withdrawBalance() : isWithdrawShown = true">
 					<nb-icon icon="arrow-downward-outline"></nb-icon>
 				</button>
-			
-				<input 
-				*ngIf="isWithdrawShown"
-				formControlName="balanceToWithDraw"
-				type="text"
-				nbInput
-				status="basic"
-				placeholder="balance to withdraw"
-				class="rw-name">
+
+				<button nbButton
+								*ngIf="isSingleMode"
+								status="success"
+								size="tiny"
+								(click)="switchToNumericMode()">
+					<nb-icon icon="bar-chart-2-outline"></nb-icon>
+				</button>
+
+				<button nbButton
+								*ngIf="isNumericMode"
+								status="success"
+								size="tiny"
+								(click)="switchToSingleMode()">
+					<nb-icon icon="checkmark-circle-2-outline"></nb-icon>
+				</button>
+
+				<div class="recursive-rewards" *ngIf="isNumericMode" (click)="clearRecursive()">
+					<div *ngFor="let reward of recursiveRewards"
+							 class="recursive-reward"
+							 [ngClass]="{
+								'recursive-reward-small': isRewardSmall(reward),
+								'recursive-reward-average': isRewardAverage(reward),
+								'recursive-reward-big': isRewardBig(reward),
+								'recursive-reward-amazing': isRewardAmazing(reward)
+							 }"
+							 >
+						{{reward | zl}}
+					</div>
+				</div>
+
+				<input *ngIf="isWithdrawShown"
+							 formControlName="balanceToWithDraw"
+							 type="text"
+							 nbInput
+							 status="basic"
+							 placeholder="balance to withdraw"
+							 class="rw-name">
 
 			</nb-card-header>
 			<nb-card-body class="rw-pick">
 
-				<button nbButton [disabled]="isUIBlocked"
+				<input *ngIf="isNumericMode"
+							 formControlName="numberOfRewardsToGet"
+							 type="text"
+							 nbInput
+							 status="basic"
+							 placeholder="number of rewards to get"
+							 class="rw-name">
+
+				<button nbButton
+								[disabled]="isUIBlocked"
 								status="success"
 								(click)="pickReward()">Pick NOW!</button>
 
-				<button nbButton [disabled]="isUIBlocked"
+				<button nbButton
+								[disabled]="isUIBlocked"
 								size="tiny"
 								status="danger"
 								(click)="punish()">Punish</button>
 
-				<div class="picked">{{displayedReward?.name | zl}}</div>
+				<div class="picked" [ngClass]="{
+					'recursive-reward-small': isRewardSmall(displayedReward?.name),
+					'recursive-reward-average': isRewardAverage(displayedReward?.name),
+					'recursive-reward-big': isRewardBig(displayedReward?.name),
+					'recursive-reward-amazing': isRewardAmazing(displayedReward?.name)
+				 }">{{displayedReward?.name | zl}}</div>
 
 
 			</nb-card-body>

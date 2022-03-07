@@ -7,7 +7,7 @@ import { LocalStorage } from './local-storage.service';
   providedIn: 'root',
 })
 export class UserBalanceService {
-  public readonly USER_BALANCE_KEY = 'userBalance';
+  public readonly USER_BALANCE_KEY = 'userBalance2';
   constructor(private ls: LocalStorage) {}
 
   getBalance() {

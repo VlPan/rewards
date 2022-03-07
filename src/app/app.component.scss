@@ -51,3 +51,43 @@
 .balance.bad-balance {
 	color: #e61247
 }
+
+.withdraw {
+	margin-right: 7px;
+}
+.recursive-rewards {
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 400px;
+	flex-direction: row;
+}
+.recursive-reward {
+	margin-right: 10px;
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+
+.recursive-reward-small {
+	font-size: 12px;
+	font-weight: normal;
+	color: #b3f5ea;
+}
+
+.recursive-reward-average {
+	font-size: 16px;
+	font-weight: normal;
+	color: #ffe880;
+}
+
+.recursive-reward-big {
+	font-size: 25px;
+	font-weight: 700;
+	color: #63ff7b;
+}
+
+.recursive-reward-amazing {
+	font-weight: 700;
+	font-size: 40px;
+	color: #36c9ff;
+}
